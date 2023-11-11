@@ -1,0 +1,28 @@
+FROM pgbouncer/pgbouncer:latest
+
+# Use env vars because this container will create the pgbouncer.ini for me
+# https://gitlab.com/aztek-io/oss/containers/pgbouncer-container
+ENV DATABASES_DBNAME postgres
+ENV DATABASES_PASSWORD postgres
+ENV DATABASES_USER postgres
+ENV DATABASES_PORT 5432
+# set by docker compose for dev
+# ENV DATABASES_HOST 
+
+ENV PGBOUNCER_LISTEN_PORT 6543
+ENV PGBOUNCER_AUTH_TYPE scram-sha-256
+ENV PGBOUNCER_AUTH_QUERY "SELECT rolname, rolpassword FROM pg_authid WHERE rolname=\$1"
+ENV PGBOUNCER_AUTH_USER postgres
+ENV PGBOUNCER_AUTH_FILE /opt/pgbouncer/auth_file.txt
+ENV PGBOUNCER_POOL_MODE transaction
+ENV PGBOUNCER_DEFAULT_POOL_SIZE 20
+
+COPY auth_file.txt /opt/pgbouncer/auth_file.txt
+
+# COPY start.sh /start.sh
+# 
+# USER root
+# RUN chmod +x /start.sh
+# USER nobody
+# 
+# CMD ["/start.sh"]
