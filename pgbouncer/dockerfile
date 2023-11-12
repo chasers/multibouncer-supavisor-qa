@@ -19,10 +19,10 @@ ENV PGBOUNCER_DEFAULT_POOL_SIZE 20
 
 COPY auth_file.txt /opt/pgbouncer/auth_file.txt
 
-# COPY start.sh /start.sh
-# 
-# USER root
-# RUN chmod +x /start.sh
-# USER nobody
-# 
-# CMD ["/start.sh"]
+COPY start.sh /start.sh
+
+USER root
+RUN chmod +x /start.sh
+USER postgres
+
+CMD ["/start.sh"]

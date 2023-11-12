@@ -1,0 +1,29 @@
+FROM debian:buster
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends autoconf automake libtool libssl-dev postgresql-client curl make gcc libc-dev libevent-dev pkg-config libudns-dev && \
+    curl --insecure -o /tmp/pgbouncer-1.20.0.tar.gz -L https://pgbouncer.github.io/downloads/files/1.20.0/pgbouncer-1.20.0.tar.gz && \
+    cd /tmp && \
+    tar xvfz /tmp/pgbouncer-1.20.0.tar.gz && \
+    cd pgbouncer-1.20.0 && \
+    ./configure --prefix=/usr --with-udns && \
+    make && \
+    cp pgbouncer /usr/bin && \
+    mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
+    cd /tmp && \
+    rm -rf /tmp/pgbouncer* && \
+    useradd -ms /bin/bash postgres
+
+COPY entrypoint.sh /entrypoint.sh
+COPY pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
+COPY auth_file.txt /opt/pgbouncer/auth_file.txt
+
+RUN chmod +x /entrypoint.sh
+
+USER postgres
+
+EXPOSE 5432
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["/usr/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
