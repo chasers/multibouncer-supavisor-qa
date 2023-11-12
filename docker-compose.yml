@@ -4,15 +4,11 @@ services:
   postgres:
     build: ./postgres
     # environment:
-    #   POSTGRES_USER: postgres
-    #   POSTGRES_PASSWORD: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
   pgbouncer:
     build: ./pgbouncer
-    environment:
-      DATABASES_HOST: postgres
-    #  AUTH_USER_PASSWORD: your_auth_user_password
+    # environment:
     depends_on:
       - postgres
 volumes:
