@@ -1,28 +1,29 @@
-FROM pgbouncer/pgbouncer:latest
+FROM debian:buster
 
-# Use env vars because this container will create the pgbouncer.ini for me
-# https://gitlab.com/aztek-io/oss/containers/pgbouncer-container
-ENV DATABASES_DBNAME postgres
-ENV DATABASES_PASSWORD postgres
-ENV DATABASES_USER postgres
-ENV DATABASES_PORT 5432
-# set by docker compose for dev
-# ENV DATABASES_HOST 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends autoconf automake libtool libssl-dev postgresql-client curl make gcc libc-dev libevent-dev pkg-config libudns-dev && \
+    curl --insecure -o /tmp/pgbouncer-1.20.0.tar.gz -L https://pgbouncer.github.io/downloads/files/1.20.0/pgbouncer-1.20.0.tar.gz && \
+    cd /tmp && \
+    tar xvfz /tmp/pgbouncer-1.20.0.tar.gz && \
+    cd pgbouncer-1.20.0 && \
+    ./configure --prefix=/usr --with-udns && \
+    make && \
+    cp pgbouncer /usr/bin && \
+    mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
+    cd /tmp && \
+    rm -rf /tmp/pgbouncer* && \
+    useradd -ms /bin/bash postgres
 
-ENV PGBOUNCER_LISTEN_PORT 6543
-ENV PGBOUNCER_AUTH_TYPE scram-sha-256
-ENV PGBOUNCER_AUTH_QUERY "SELECT rolname, rolpassword FROM pg_authid WHERE rolname=\$1"
-ENV PGBOUNCER_AUTH_USER postgres
-ENV PGBOUNCER_AUTH_FILE /opt/pgbouncer/auth_file.txt
-ENV PGBOUNCER_POOL_MODE transaction
-ENV PGBOUNCER_DEFAULT_POOL_SIZE 20
-
+COPY entrypoint.sh /entrypoint.sh
+COPY pgbouncer.ini /etc/pgbouncer/pgbouncer.ini
 COPY auth_file.txt /opt/pgbouncer/auth_file.txt
 
-COPY start.sh /start.sh
+RUN chmod +x /entrypoint.sh
 
-USER root
-RUN chmod +x /start.sh
 USER postgres
 
-CMD ["/start.sh"]
+EXPOSE 6543
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["/usr/bin/pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
