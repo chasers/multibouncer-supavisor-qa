@@ -3,13 +3,17 @@ version: "3"
 services:
   postgres:
     build: ./postgres
-    # environment:
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   pgbouncer:
     build: ./pgbouncer
-    # environment:
+    ports:
+      - "6543:6543"
     depends_on:
       - postgres
+
 volumes:
   pgdata:

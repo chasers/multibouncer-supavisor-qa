@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends autoconf automake libtool libssl-dev postgresql-client curl make gcc libc-dev libevent-dev pkg-config libudns-dev && \
+    apt-get install -y --no-install-recommends autoconf automake libtool libssl-dev postgresql-client curl make gcc libc-dev libevent-dev pkg-config libudns-dev net-tools nmap && \
     curl --insecure -o /tmp/pgbouncer-1.20.0.tar.gz -L https://pgbouncer.github.io/downloads/files/1.20.0/pgbouncer-1.20.0.tar.gz && \
     cd /tmp && \
     tar xvfz /tmp/pgbouncer-1.20.0.tar.gz && \
@@ -21,8 +21,6 @@ COPY auth_file.txt /opt/pgbouncer/auth_file.txt
 RUN chmod +x /entrypoint.sh
 
 USER postgres
-
-EXPOSE 6543
 
 ENTRYPOINT ["/entrypoint.sh"]
 
