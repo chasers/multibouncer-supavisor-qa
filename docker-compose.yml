@@ -7,6 +7,8 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    environment:
+      HOST: "postgres"
 
   pgbouncer:
     build: ./pgbouncer
@@ -14,6 +16,11 @@ services:
       - "6543:6543"
     depends_on:
       - postgres
+
+  pgbench:
+    build: ./pgbench
+    depends_on:
+      - pgbouncer
 
 volumes:
   pgdata:

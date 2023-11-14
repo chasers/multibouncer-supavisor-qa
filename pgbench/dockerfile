@@ -1,0 +1,19 @@
+# Start from the official Debian image
+FROM debian:buster
+
+# Install pgbench
+RUN apt-get update && \
+    apt-get install -y postgresql-contrib
+
+# We need to remove the symlink and recreate it for some reason
+RUN if [ -L /usr/bin/pgbench ]; then rm /usr/bin/pgbench; fi 
+RUN ln -s /usr/share/postgresql-common/pg_wrapper /usr/bin/pgbench
+
+# Remove apt cache to keep the image small
+RUN rm -rf /var/lib/apt/lists/*
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
