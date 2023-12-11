@@ -10,17 +10,22 @@ services:
     environment:
       HOST: "postgres"
 
-  pgbouncer:
-    build: ./pgbouncer
-    ports:
-      - "6543:6543"
+  # pgbouncer:
+  #   build: ./pgbouncer
+  #   ports:
+  #     - "6543:6543"
+  #   depends_on:
+  #     - postgres
+
+  supavisor:
+    build: ./supavisor
     depends_on:
       - postgres
 
-  pgbench:
-    build: ./pgbench
-    depends_on:
-      - pgbouncer
+  # pgbench:
+  #   build: ./pgbench
+  #   depends_on:
+  #     - pgbouncer
 
 volumes:
   pgdata:
