@@ -1,18 +1,12 @@
 version: "3"
 
 services:
-  supavisor_db:
-    image: postgres:15
-    volumes:
-      - ./supavisor/postgres:/docker-entrypoint-initdb.d/
-    environment:
-      POSTGRES_PASSWORD: postgres
-
   pooler:
+    cpuset: "0-3"
     build: ./supavisor
     depends_on:
       - postgres
-      - supavisor_db
+
   pgbench:
     command: >
       bash -c '
