@@ -7,6 +7,7 @@ CORES=$(nproc)
 # done
 
 for i in $(seq 1 4); do
+   echo "Starting PgBouncer"
    /usr/bin/pgbouncer /etc/pgbouncer/pgbouncer.ini &
 done
 

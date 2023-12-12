@@ -2,7 +2,7 @@ version: "3"
 
 services:
   postgres:
-    cpuset: "3-6"
+    cpuset: "4-7"
     build: ./postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -12,7 +12,7 @@ services:
       HOST: "postgres"
 
   pgbench:
-    cpuset: "7-9"
+    cpuset: "8-9"
     build: ./pgbench
     depends_on:
       - pooler
