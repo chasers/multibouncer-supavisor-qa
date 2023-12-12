@@ -9,7 +9,7 @@ To properly test Supavisor vs multi-process PgBouncer we must setup both the sam
 
 ## Bench PgBouncer:
 
-`docker compose -f docker-compose.yml -f docker-compose-pgbounce.yml up --build `
+`docker compose -f docker-compose.yml -f docker-compose-pgbounce.yml up --build`
 
 - Docker compose to spin up Postgres and PgBouncer on separate nodes
 - One PgBouncer process per core, behind one port via SO_REUSEPORT
@@ -17,7 +17,7 @@ To properly test Supavisor vs multi-process PgBouncer we must setup both the sam
 
 ## Bench Supavisor:
 
-`docker compose -f docker-compose.yml -f docker-compose-supavisor.yml up --build `
+`docker compose -f docker-compose.yml -f docker-compose-supavisor.yml up --build`
 
 - Docker compose to spin up Supavisor, a Postgres metadata for Supavisor, tenant Postgres
 - Elixir takes advantage of all cores automatically
