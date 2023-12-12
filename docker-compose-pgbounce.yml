@@ -2,6 +2,7 @@ version: "3"
 
 services:
   pooler:
+    cpuset: "0-3"
     build: ./pgbouncer
     ports:
       - "6543:6543"

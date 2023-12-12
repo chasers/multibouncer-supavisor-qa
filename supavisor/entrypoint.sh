@@ -3,7 +3,7 @@
 export ECTO_IPV6=false
 export ERL_AFLAGS=""
 export SECRET_KEY_BASE="dev"
-export DATABASE_URL="postgres://postgres:postgres@supavisor_db:5432/postgres"
+export DATABASE_URL="postgres://postgres:postgres@postgres:5432/postgres"
 export VAULT_ENC_KEY="aHD8DZRdk2emnkdktFZRh3E9RNg4aOY7"
 export API_JWT_SECRET="dev"
 
