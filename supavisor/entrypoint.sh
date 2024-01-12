@@ -25,12 +25,15 @@ curl -i -X PUT \
     "ip_version": "v4",
     "enforce_ssl": false,
     "require_user": true,
+    "default_pool_strategy": "fifo",
+    "default_pool_size": 20,
+    "default_max_clients": 300,
     "users": [
       {
         "db_user": "postgres",
         "db_password": "postgres",
         "pool_size": 20,
-        "mode_type": "transaction",
+        "mode_type": "session",
         "is_manager": true
       }
     ]
