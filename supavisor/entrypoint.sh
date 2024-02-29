@@ -33,7 +33,7 @@ curl -i -X PUT \
         "db_user": "postgres",
         "db_password": "postgres",
         "pool_size": 20,
-        "mode_type": "session",
+        "mode_type": "transaction",
         "is_manager": true
       }
     ]

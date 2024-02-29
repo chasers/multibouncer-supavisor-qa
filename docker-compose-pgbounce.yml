@@ -14,4 +14,4 @@ services:
       bash -c '
       sleep 5;
       pgbench -i "postgres://postgres:postgres@pooler:6543/postgres?sslmode=disable";
-      pgbench "postgres://postgres:postgres@pooler:6543/postgres?sslmode=disable" -Srn -T 60 -j 8 -c 10 -P 10 -M prepared'
+      pgbench "postgres://postgres:postgres@pooler:6543/postgres?sslmode=disable" -Srn -T 60 -j 8 -c 10 -P 10 -M extended'
